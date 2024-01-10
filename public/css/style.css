@@ -1,0 +1,19 @@
+.img_character{
+    height: 300px;
+    width: 300px;
+}
+
+.character{
+    border: 3px solid;
+    border-color: black;
+    height: 600px;
+    width: 500px;
+}
+
+.characters{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 60px;
+    gap:40px;
+    text-align: center;
+}
