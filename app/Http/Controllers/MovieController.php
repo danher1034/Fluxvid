@@ -37,7 +37,7 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie)
     {
-        return view('movie.edit', compact('id'));
+        return view('movies.edit', compact('movie'));
     }
 
     public function destroy(Movie $movie)

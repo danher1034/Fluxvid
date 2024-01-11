@@ -25,17 +25,41 @@ class DirectorController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Director $director)
     {
-        return view('directors.show', compact('id'));
+        return view('directors.show', compact('director'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Director $director)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Director $director)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Director $director)
     {
         //
     }
