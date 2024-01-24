@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <a href="{{route('movies.edit',$movie->id)}}">Editar película</a>
+    <a href="{{route('movies.edit', $movie)}}">Editar película</a>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     Año de la película: {{$movie->year}} <br><br>
     Valoración: {{$movie->rating}} <br><br>
     <p>{{$movie->plot}}</p> <br><br>
-    <form action="{{route('movies.destroy',$movie->id)}}" method="POST">
+    <form action="{{route('movies.destroy',$movie)}}" method="POST">
         @csrf
         @method('delete')
         <input type="submit" value="Eliminar">

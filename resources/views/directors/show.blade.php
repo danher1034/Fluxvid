@@ -3,7 +3,7 @@
 @section('title')
     <h1>Show de directors: {{$director->name}}</h1>
 
-    Nacionalidad: {{$director->nacionality}} <br>
+    Nacionalidad: {{$director->nationality}} <br>
     Fecha de nacimiento: {{$director->birthday}} <br><br>
     Peliculas:<br><br>
     @foreach ($director->movies as $movie)

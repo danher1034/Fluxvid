@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Director;
+use App\Http\Requests\MovieRequest;
 
 class MovieController extends Controller
 {
@@ -21,7 +24,26 @@ class MovieController extends Controller
      */
     public function create()
     {
-        return view('movies.create');
+        $directors = Director::All();
+        return view('movies.create', compact('directors'));
+    }
+
+        /**
+     * Store a newly created resource in storage.
+     */
+    public function store(MovieRequest $request)
+    {
+        $movie=new Movie();
+        $movie->title=$request->get('title');
+        $movie->slug=Str::slug($movie->title);
+        $movie->year=$request->get('year');
+        $movie->plot=$request->get('plot');
+        $movie->rating=$request->get('rating');
+        $movie->visibility=$request->has('visibility')?1:0;
+        $movie->director()->associate(Director::findOrFail($request->get('director')));
+        $movie->save();
+
+        return view('movies.stored', compact('movie'));
     }
 
     /**
@@ -37,7 +59,25 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie)
     {
-        return view('movies.edit', compact('movie'));
+        $directors = Director::All();
+        return view('movies.edit', compact('movie','directors'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function update(MovieRequest $request, Movie $movie)
+    {
+        $movie->title=$request->get('title');
+        $movie->slug=Str::slug($movie->title);
+        $movie->year=$request->get('year');
+        $movie->plot=$request->get('plot');
+        $movie->rating=$request->get('rating');
+        $movie->visibility=$request->has('visibility')?1:0;
+        $movie->director()->associate(Director::findOrFail($request->get('director')));
+        $movie->save();
+
+        return view('movies.edited', compact('movie'));
     }
 
     public function destroy(Movie $movie)
