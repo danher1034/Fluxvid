@@ -1,42 +1,71 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Redis;
 
 class LoginController extends Controller
 {
-
-public function signupForm()
+    public function signupForm()
     {
     return view('auth.signup');
     }
 
-public function signup (SignupRequest $request)
+    public function signup (SignupRequest $request)
+    {
 
-{
+        $user = new User();
+        $user->username = $request->get('username');
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = Hash:: make($request->get('password'));
+        $user->save();
 
-$user = new User();
+        Auth:: Login($user);
 
-$user->username = $request->get('username');
+        return redirect()-route('users.account');
+    }
 
-$user->name = $request->get('name');
+    public function loginform()
+    {
+        if(Auth::check()){
+            return redirect()->route('users.account');
+        }else{
+            return view('auth.login');
+        }
+    }
 
-$user->email = $request->get('email');
+    public function login(Request $request)
+    {
+        $credentials= $request->only('username','password');
 
-$user->password = Hash:: make($request->get('password'));
+        if(Auth::guard('web')->attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect()->route('users.account');
+        } else{
+            $error = 'Error al acceder a la aplicación';
+            return view('auth.login', compact('error'));
+        }
+    }
 
-$user->save();
-
-Auth:: Login($user);
-
-return redirect()-route('users.account');
-
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('principal');
+    }
 }
 
 
 
-}
+
+
+
+
+

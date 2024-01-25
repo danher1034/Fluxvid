@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -44,6 +45,17 @@ Route::resource('movies',MovieController::class)
 
 Route::resource('directors', DirectorController::class);
 
-Route::post('/directors/nationality', [DirectorController::class,'getDirectorsFromNationality'])->name('directors.nationality');;
+Route::post('/directors/nationality', [DirectorController::class,'getDirectorsFromNationality'])->name('directors.nationality');
+
+Route::get('signup', [LoginController::class, 'signupForm'])->name('signupForm');
+Route::post('signup', [LoginController::class, 'signup'])->name('signup');
+Route::get('login', [LoginController::class, 'loginForm'])->name('loginForm');
+Route::post('login', [LoginController::class, 'login'])->name('login');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('account', function() {
+    return view('users.account');
+})->name('users.account')
+->middleware('auth');
 
 
